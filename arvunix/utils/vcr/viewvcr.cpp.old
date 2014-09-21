@@ -1,0 +1,50 @@
+#include "vcr.hpp"
+/*
+#include "stdio.h"
+#include "stdlib.h"
+#include "fcntl.h"
+#include "string.h"
+#include "io.h"
+#include "alloc.h"
+*/
+
+void main (int argc, char *argv[]) {
+VCR	vcr;		// класс работы с VCR
+int	key, tmp;
+int	fdout, done;
+
+	if (argc != 3) {
+	/* Имя файла не передано */
+		printf("\nUsage: %s file.vcr keynum\n", argv[0]);
+		exit(1);
+		};
+	// загрузим таблицу
+	tmp = vcr.LoadVCR(argv[1]);
+	if (tmp) {
+		exit(tmp);
+		}
+	printf("Number keys: %d\n", vcr.keynums);
+//	printf("Number keys: %d\n", vcr.svcr->nkey);
+	key = atoi(argv[2]);
+	if (vcr.Uncompress(key)) {
+		printf("Error key num: %d\n", key);
+		exit (1);
+		};
+	printf("sizeper: %X/%d\n", vcr.sizeper, vcr.sizeper);
+	printf("modesize: %X/%d\n", vcr.modesize, vcr.modesize);
+
+	fdout = open("./VCR.OUT", O_WRONLY|O_CREAT, 0644);
+	done = 1;
+	while (done) {
+		if (vcr.VCR_1950())
+			done = 0;
+		write(fdout, vcr.Sbuffer, vcr.modesize * 2);
+		};
+//	write(fdout, vcr.Sbuffer, vcr.modesize);
+	close(fdout);
+
+	for(tmp=0; (tmp < 0x100) && (vcr.skey[tmp]); tmp++) {
+		printf("%04X.", vcr.skey[tmp]);
+		};
+	printf("\n");
+};

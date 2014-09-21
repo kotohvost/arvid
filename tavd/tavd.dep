@@ -1,0 +1,28 @@
+# DO NOT DELETE
+
+adat.$(O): ..\MIKM300\INCLUDE\mikmod.h ../MIKM300/INCLUDE/mmio.h \
+  ../MIKM300/INCLUDE/tdefs.h ../MIKM300/INCLUDE/ptform.h copyrit.h \
+  mytypes.h audio.h adat.h
+audio.$(O): ..\MIKM300\INCLUDE\mikmod.h ../MIKM300/INCLUDE/mmio.h \
+  ../MIKM300/INCLUDE/tdefs.h ../MIKM300/INCLUDE/ptform.h mytypes.h audio.h
+aftp.$(O): compiler.h mytypes.h adriver.h dpmiserv.h console.h mtime.h aftp.h \
+  crc.h
+csvector.$(O): csvector.h csbase.h
+dpmiserv.$(O): compiler.h mytypes.h adriver.h dpmiserv.h djvidsys.h console.h \
+  galey.h
+gal_test.$(O): compiler.h mtime.h mytypes.h adriver.h galey.h
+galey.$(O): compiler.h mytypes.h dpmiserv.h adriver.h inline.h mtime.h \
+  galey.h
+ini_test.$(O): compiler.h inifile.h csvector.h csbase.h
+inifile.$(O): inifile.h csvector.h csbase.h
+crc32.$(O): mytypes.h crc.h
+manchstr.$(O): compiler.h mytypes.h console.h adriver.h dpmiserv.h manchstr.h \
+  mtime.h
+tavd.$(O): compiler.h copyrit.h mytypes.h adriver.h console.h inline.h \
+  galey.h mtime.h aftp.h tavd.h
+djvidsys.$(O): compiler.h mytypes.h inline.h render.h dpmiserv.h djvidsys.h
+machtest.$(O): mytypes.h adriver.h manchstr.h
+adriver.$(O): compiler.h mytypes.h adriver.h galey.h dpmiserv.h manchstr.h \
+  djvidsys.h console.h inline.h mtime.h
+console.$(O): compiler.h mytypes.h console.h adriver.h inifile.h csvector.h \
+  csbase.h inline.h mtime.h galey.h djvidsys.h tavd.h

@@ -1,0 +1,9 @@
+*.O
+*.o
+*.a
+*.bin
+*.lib
+*.obj
+*.out*
+*.exe
+*.?mp

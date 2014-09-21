@@ -1,0 +1,39 @@
+#
+#      Menu file for Demos Commander
+#
+
+F1      Home menu
+	!%h/.menu
+
+F2      Default menu
+	!/usr/lib/deco/menu
+
+F3      Backup menu
+	!.backup
+
+m       Make deco
+	make
+
+s       How to make
+	make -n
+
+l       Lint deco source code
+	make lint
+
+i       Install deco to /usr/local/bin
+	make install
+
+c       Clean current directory
+	-make clean
+
+w       Count lines in source code
+	wc *.h *.c
+
+b       Remove bak files
+	-@rm -f *.b .*.b
+
+d       Rebuild Makefile
+	mkmf
+
+f       Make list of files in directory deco
+	-@(cd ..; find deco -type f -print | egrep -v '\.[ob]$|/\.,|.lp$|/\..*\.b$|^deco/doc/|^deco/dist|^deco/serializer/' >deco/.list)

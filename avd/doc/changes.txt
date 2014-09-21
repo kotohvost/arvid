@@ -1,0 +1,66 @@
+fahr:
+
+1. Неверно определялась реальная клавиша при для нажатия, так как клавиши,
+   которые находятся в vcr-файле находятся там в произвольной последовательности,
+   а команды на работу с клавишами работают с предустановленным enum-порядком.
+   Workaround - массив cnv_vmkey - работает конкретно только для моего vcr-файла.
+   vcr.c - IrcKeyTrn()
+2. В get_time() переполнение переменной типа time_t (у меня лично она определена,
+   как long). Соответственно число миллисекунд с начала эпохи ;-) туда никак не влазит
+   (вернее лезет, но уже как отрицательная величина). Соответственно, в таблицу позиционирования
+   попадает невесть что... Я вообще не понимаю, как это прокатывало когда-либо...
+   include/mtime.c -> теперь возвращает unsigned long
+   По этой же причине изменен WritePause() - в конец добавлено запоминание последнего времени записи
+   иначе время записи паузы учитывается дважды ;-)
+3. Но это еще не все с таблицей позиционирования. В SetPT() вместо того, чтобы корректировать
+   создаваемый PT[unit](типа заполняемый 0xFF), корректируется передаваемый параметр ptpb...
+   Если функция выполняется вначале, как одиночный вызов - это еще полбеды, а вот когда она 
+   вызывается из LoadPT, начинаются глюки с запоротым стеком (размер ptpb там меньше, чем думает
+   об этом SetPT. Исправил
+4. В LoadPT() явный ляп (Cut&Paste - враг мозгов ;-) - файл на чтение открывается с
+   флагами O_CREAT, O_WRONLY, из него ничего не читается, да еще и не проверяется результат чтения.
+   А структура-то управляющая... Частично исправлено ;-))
+
+fahr: 16.02.2004
+
+5. Добавлены дополнительные ключи в список тех, которые идут из ini-файла.
+6. Исправил (наконец-то) запись - WriteData(). 3 ошибки !!! Это просто потрясно. Во-первых данные 
+   копировались задом наперед (то есть из локального буфера в реальный), во вторых не учитывалось, 
+   что секторов реально запрашивается несколько, в третьих подозрительное использование
+   унарного инкремента ++ в переменной frame_counter - ее можно было проверять (прибавление 
+   происходит после проверки значения переменной, но вот использовать - разве что с вечным - 1, 
+   а это ужасно некузяво).
+7. Исправил PositionTape. Алгоритм вычисления времени текущего фрейма просто потрясный. Итог - 
+   время все время врет.
+   
+fahr: 17.02.2004
+
+8. Исправил (наконец-то) PositionTape так, что теперь можно читать данные подряд, не делая при этом
+   перемоток при чтении каждого сектора. Попробовал разобраться с MoveTape, но без понимания
+   структуры vcr как-то не получается. В принципе работает и так
+   
+sl: 23.02.2004
+
+9.  *: fahr.ini: REC = 4 -> RECORD = 4
+10. *: LoopBackTest: redeveloped.
+11. *: tape_main.c Flags: Frame ID fix: GOLEY_FLAG -> ID_G1_FRAME.
+
+sl: 29.02.2004
+
+12. +: ini file parameter auto_power = yes/no
+13. +: fahr.ini: [board0] auto_power = no
+14. +: chc.c: Add Scrambler/DeScrambler methods. That's powerfull AGC channal coding. Based on CRC32 random tables.
+15. +: Get ini file by hostname: "./$(HOSTNAME).ini". If doesn't found, than try load "./avd.ini".
+16. *: tape.c WriteData fix buf increment (ref. to paragraf 6):
+    was: memcpy (pcom + 1, (char*)buf + (data_size * frame_counter), data_size);
+    now: memcpy (pcom + 1, buf, data_size); /* buf corrected bottom after successfull msgsnd () */
+17. *: tape.c WriteData fix frame_counter++ in second loop;
+18. *: vcr.c IrcKeyTrn fix DelTo[key] -> DelTo[new_mode].
+19. *: vcr.c move DelTo[key] to SetVHSMode.
+20. *: Final fix SetVHSMode. Hardware key index deprecated. Removed it from .ini files.
+
+sl: 02.03.2004
+
+21. *: SetVHSMode: redeveloped. Add low level method ChangeVHSMode ().
+22. *: SetVHSModeByName: removed. Use instead IrcKeyTrnByName ().
+23. +: Add Cinematic delay on VHS Power On/Off in to VHSopen () and VHSclose ().

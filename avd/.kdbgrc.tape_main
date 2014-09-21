@@ -1,0 +1,66 @@
+[Breakpoint 0]
+Enabled=false
+File=tape_main.c
+Line=214
+Temporary=false
+
+[General]
+DebuggerCmdStr=
+FileVersion=1
+ProgramArgs=
+TTYLevel=7
+WorkingDirectory=
+
+[Memory]
+ColumnWidths=80,72
+Expression1=PT[0]+1
+Expression10=pPT+1000
+Expression11=*pPT
+Expression12=(char*)CST[0]
+Expression13=(char*)PT[0]+0x200
+Expression14=(char*)PT[0]
+Expression15=(char*)ptpb+200
+Expression16=(char*)ptpb
+Expression17=(char*)PT[0]+0x100
+Expression18=0x806c6d0
+Expression19=PT[0]+0x100
+Expression2=PT[0]+50
+Expression20=x PT[0]
+Expression21=/x PT[0]
+Expression22=/c PT[0]
+Expression23=PT
+Expression24=/x PT
+Expression25=0x806bbb0
+Expression3=PT[0]+100
+Expression4=PT[0]
+Expression5=&PT[0]
+Expression6=*PT[0]
+Expression7=pPT
+Expression8=&PT[0]->beg_frame
+Expression9=PT[0]->beg_frame
+Format1=19
+Format10=19
+Format11=19
+Format12=19
+Format13=19
+Format14=17
+Format15=19
+Format16=19
+Format17=17
+Format18=17
+Format19=19
+Format2=19
+Format20=19
+Format21=19
+Format22=19
+Format23=19
+Format24=19
+Format25=17
+Format3=19
+Format4=19
+Format5=19
+Format6=19
+Format7=19
+Format8=19
+Format9=19
+NumExprs=25

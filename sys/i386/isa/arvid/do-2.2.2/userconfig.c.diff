@@ -1,0 +1,12 @@
+*** userconfig.c.d	Wed Sep  3 01:38:19 1997
+--- userconfig.c	Wed Sep  3 01:43:06 1997
+*************** static DEV_INFO device_info[] = {
+*** 236,241 ****
+--- 236,242 ----
+  {"matcdc",       "Matsushita/Panasonic/Creative CDROM",	0,		CLS_STORAGE},
+  {"wt",          "Wangtek/Archive QIC-02 Tape drive",	0,		CLS_STORAGE},
+  {"amd",		"Tekram DC-390(T) / AMD 53c974 based PCI SCSI",	FLG_FIXED, CLS_STORAGE},
++ {"avt",		"Arvid board 1030/31/51/52 controller",	0,		CLS_STORAGE},
+  
+  {"ed",          "NE1000,NE2000,3C503,WD/SMC80xx Ethernet adapters",0,	CLS_NETWORK},
+  {"el",          "3C501 Ethernet adapter",		0,		CLS_NETWORK},

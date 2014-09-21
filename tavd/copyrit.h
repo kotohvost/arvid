@@ -1,0 +1,1 @@
+#define Rights "--=TeleArViD=-- & --=ArVidDAT=-- (TAVD & AVDAT) project, 1999y.\nAll rigths on this software have Levtchenko V.\n"

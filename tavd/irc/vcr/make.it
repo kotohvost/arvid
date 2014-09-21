@@ -1,0 +1,1 @@
+g++ -O2 -g -I ../include -o it it.cpp 

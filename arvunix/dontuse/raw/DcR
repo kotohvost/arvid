@@ -1,0 +1,2 @@
+gcc -O2 -I../include -g -o DcReadDir DcReadDir.c ../lib/DcHeader.o ../lib/rs.o ../lib/crc.o
+

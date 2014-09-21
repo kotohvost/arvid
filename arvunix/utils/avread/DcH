@@ -1,0 +1,1 @@
+g++ -O2 -I../../include -g -o avread avread.C ../../lib/dcheader.o ../../lib/rs.o ../../lib/crc.o

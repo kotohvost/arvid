@@ -1,0 +1,15 @@
+#
+#       Backup menu
+#
+
+F1      Backup deco sources (096ds15)
+	(cd ..; tar cvbfF 20 /dev/rfd096ds15 deco/.list)
+
+F2      Backup deco documentation (096ds15)
+	(cd ..; tar cvbf 20 /dev/rfd096ds15 deco/doc)
+
+F3      Make serializer distribution (096ds15)
+	(cd ..; tar cvbf 20 /dev/rfd096ds15 deco/serializer deco/SERIALS)
+
+F4      Make distributives backup  (096ds15)
+	(cd ..; tar cvbf 20 /dev/rfd096ds15 deco/dist*)

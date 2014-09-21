@@ -1,0 +1,20 @@
+.menu .deco .cshrc .login *.c *.h
+	re %f
+
+*.b
+	rm %f
+
+Makefile makefile *.mk
+	make -f %f
+
+core
+	adb
+
+*.o
+	nm %f | less
+
+*.a
+	ar tv %f | less
+
+*.sc
+	sc %b

@@ -1,0 +1,2 @@
+set autowrite
+set nomore

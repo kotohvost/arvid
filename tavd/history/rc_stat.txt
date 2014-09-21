@@ -1,0 +1,31 @@
+ 	
+ !"#$%&'()*+,-./01²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅ 22:09:23
+ÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ
+
+C:\WORK\TAVD>tavd.exe
+DOS/4GW Protected Mode Run-time  Version     14Bh
+Copyright (c) Rational Systems, Inc. 199       2h
+--=TeleArViD=-- & --=ArVidDAT=-- (TAVD &  14F2FEhroject, 1999y.
+All rigths on this software have Levtche       1h
+-Initial settings loading & checked.....  14F2FFh............[Success]
+-Working mode is........................     14Ch............[Receive]
+-Checked arvid memory...................     732h............[524288b]
+-Buffers frames avaible.................       3h............[64]
+-Arvid model detected........................................[1052]
+-Density.....................................................[Low]
+-Load font...................................................[tavd.fnt]
+-Text screen size............................................[80x30]
+-Select graphics size........................................[360x350]
+-Graphics subsystem initialized..............................[Success]
+-Init buffer mask............................................[AAAAh]
+-CPU detected................................................[80486]
+-DPMI host found.............................................[0.90]
+-Virtual memory..............................................[Supported]
+-Interrupt intercepted.......................................[73h]
+|--Cluster--|-----I----|----II----|----III---|--Summary--|
+|	  0 |	   982 |       48 |	   6 |	    1096 |
+|	  1 |	   915 |       32 |	   2 |	     985 |
+|	  2 |	   734 |       20 |	   2 |	     780 |
+-Stat: NumIRQ = 331, ReceiveFC = 328, ReceiveCFC = 69, RightRCFC = 69.
+-ErrStat: DublicatCF = 0, LastCF = 0, CastCCount = 0.
+                        

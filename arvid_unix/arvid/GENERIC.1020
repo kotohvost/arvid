@@ -1,0 +1,7 @@
+#
+# GENERIC -- Generic machine with WD/AHx/NCR/BTx family disks
+#
+#	$Id: GENERIC,v 1.46.2.6 1995/10/25 17:29:51 jkh Exp $
+#
+# Поддержка арвида - пробный вариант
+device		avt0	at isa? port 0x220 bio irq 11 drq 6 vector avtintr

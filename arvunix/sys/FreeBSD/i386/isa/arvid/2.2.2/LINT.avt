@@ -1,0 +1,4 @@
+# Поддержка арвида 1020 - пробный вариант
+device		avt0	at isa? bio irq 11 drq 6 vector avtintr
+# Поддержка арвида 103x - пробный вариант
+device		avt0	at isa? port 0x270 bio irq 11 vector avtintr

@@ -1,0 +1,3 @@
+driver_thread: cluster constructor
+ecc: RS (63,57)
+avd: loopback mode support (for detecting VHS power state)

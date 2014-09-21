@@ -1,0 +1,37 @@
+#!/bin/sh
+module="avd"
+device="avd"
+mode="664"
+
+# Group: since distributions do it differently, look for wheel or use staff
+if grep '^staff:' /etc/group > /dev/null; then
+    group="staff"
+else
+    group="wheel"
+fi
+
+# invoke insmod with all arguments we got
+# and use a pathname, as newer modutils don't look in . by default
+/sbin/insmod -f ./$module.o $* || exit 1
+
+major=`cat /proc/devices | awk "\\$2==\"$module\" {print \\$1}"`
+
+# Create 12 entry points
+rm -f /dev/${device}[0-3][hli]
+mknod /dev/${device}0l c $major 0
+mknod /dev/${device}1l c $major 1
+mknod /dev/${device}2l c $major 2
+mknod /dev/${device}3l c $major 3
+
+mknod /dev/${device}0h c $major 16
+mknod /dev/${device}1h c $major 17
+mknod /dev/${device}2h c $major 18
+mknod /dev/${device}3h c $major 19
+
+mknod /dev/${device}0i c $major 32
+mknod /dev/${device}1i c $major 33
+mknod /dev/${device}2i c $major 34
+mknod /dev/${device}3i c $major 35
+
+chgrp $group /dev/${device}[0-3][hli]
+chmod $mode  /dev/${device}[0-3][hli]

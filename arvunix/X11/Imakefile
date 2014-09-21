@@ -1,0 +1,15 @@
+DEFINES = -DARVDEV="\"/dev/ravt0\""
+OBJS = xarvideo.o
+SRCS = xarvideo.c
+PROGRAM = xarvideo
+LDLIBS = -lX11
+
+all:: $(PROGRAM)
+
+xarvideo:	$(OBJS)
+		$(RM) $@
+		$(CCLINK) -o $@ $(LDOPTIONS) $(OBJS) $(LOCAL_LIBRARIES) \
+		$(LDLIBS) $(EXTRA_LOAD_FLAGS)
+
+clean::
+		$(RM) $(PROGRAM) $(OBJS)

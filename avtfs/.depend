@@ -1,0 +1,288 @@
+avtfs.o: avtfs.c /usr/include/linux/config.h \
+  /usr/include/linux/autoconf.h /usr/include/linux/rhconfig.h \
+  /boot/kernel.h /usr/include/linux/module.h \
+  /usr/include/linux/spinlock.h /usr/include/linux/list.h \
+  /usr/include/asm/atomic.h /usr/include/linux/version.h \
+  /usr/include/linux/kernel.h \
+  /usr/lib/gcc-lib/i586-redhat-linux/3.0.2/include/stdarg.h \
+  /usr/include/linux/linkage.h /usr/include/linux/stddef.h \
+  /usr/include/linux/fs.h /usr/include/linux/limits.h \
+  /usr/include/linux/wait.h /usr/include/asm/page.h \
+  /usr/include/asm/page_offset.h /usr/include/asm/processor.h \
+  /usr/include/asm/vm86.h /usr/include/asm/math_emu.h \
+  /usr/include/asm/sigcontext.h /usr/include/asm/segment.h \
+  /usr/include/asm/types.h /usr/include/asm/cpufeature.h \
+  /usr/include/linux/threads.h /usr/include/linux/types.h \
+  /usr/include/linux/posix_types.h /usr/include/asm/posix_types.h \
+  /usr/include/linux/vfs.h /usr/include/asm/statfs.h \
+  /usr/include/linux/net.h /usr/include/linux/socket.h \
+  /usr/include/asm/socket.h /usr/include/asm/sockios.h \
+  /usr/include/linux/sockios.h /usr/include/linux/uio.h \
+  /usr/include/linux/kdev_t.h /usr/include/linux/ioctl.h \
+  /usr/include/asm/ioctl.h /usr/include/linux/dcache.h \
+  /usr/include/linux/mount.h /usr/include/linux/stat.h \
+  /usr/include/asm/stat.h /usr/include/linux/cache.h \
+  /usr/include/asm/cache.h /usr/include/linux/string.h \
+  /usr/include/asm/string.h /usr/include/asm/semaphore.h \
+  /usr/include/asm/system.h /usr/include/linux/bitops.h \
+  /usr/include/asm/bitops.h /usr/include/asm/rwlock.h \
+  /usr/include/asm/byteorder.h \
+  /usr/include/linux/byteorder/little_endian.h \
+  /usr/include/linux/byteorder/swab.h \
+  /usr/include/linux/byteorder/generic.h /usr/include/linux/pipe_fs_i.h \
+  /usr/include/linux/minix_fs_i.h /usr/include/linux/ext2_fs_i.h \
+  /usr/include/linux/hpfs_fs_i.h /usr/include/linux/ntfs_fs_i.h \
+  /usr/include/linux/msdos_fs_i.h /usr/include/linux/umsdos_fs_i.h \
+  /usr/include/linux/iso_fs_i.h /usr/include/linux/nfs_fs_i.h \
+  /usr/include/linux/nfs.h /usr/include/linux/sunrpc/msg_prot.h \
+  /usr/include/linux/sysv_fs_i.h /usr/include/linux/affs_fs_i.h \
+  /usr/include/linux/a.out.h /usr/include/asm/a.out.h \
+  /usr/include/linux/time.h /usr/include/asm/param.h \
+  /usr/include/linux/ufs_fs_i.h /usr/include/linux/efs_fs_i.h \
+  /usr/include/linux/coda_fs_i.h /usr/include/linux/coda.h \
+  /usr/include/linux/romfs_fs_i.h /usr/include/linux/shmem_fs.h \
+  /usr/include/linux/smb_fs_i.h /usr/include/linux/hfs_fs_i.h \
+  /usr/include/linux/adfs_fs_i.h /usr/include/linux/qnx4_fs_i.h \
+  /usr/include/linux/qnxtypes.h /usr/include/linux/reiserfs_fs_i.h \
+  /usr/include/linux/bfs_fs_i.h /usr/include/linux/udf_fs_i.h \
+  /usr/include/linux/ncp_fs_i.h /usr/include/linux/proc_fs_i.h \
+  /usr/include/linux/usbdev_fs_i.h /usr/include/linux/quota.h \
+  /usr/include/linux/errno.h /usr/include/asm/errno.h \
+  /usr/include/linux/fcntl.h /usr/include/asm/fcntl.h \
+  /usr/include/linux/minix_fs_sb.h /usr/include/linux/ext2_fs_sb.h \
+  /usr/include/linux/hpfs_fs_sb.h /usr/include/linux/ntfs_fs_sb.h \
+  /usr/include/linux/msdos_fs_sb.h /usr/include/linux/fat_cvf.h \
+  /usr/include/linux/iso_fs_sb.h /usr/include/linux/nfs_fs_sb.h \
+  /usr/include/linux/sysv_fs_sb.h /usr/include/linux/affs_fs_sb.h \
+  /usr/include/linux/ufs_fs_sb.h /usr/include/linux/ufs_fs.h \
+  /usr/include/linux/efs_fs_sb.h /usr/include/linux/romfs_fs_sb.h \
+  /usr/include/linux/smb_fs_sb.h /usr/include/linux/smb.h \
+  /usr/include/linux/hfs_fs_sb.h /usr/include/linux/adfs_fs_sb.h \
+  /usr/include/linux/qnx4_fs_sb.h /usr/include/linux/qnx4_fs.h \
+  /usr/include/linux/reiserfs_fs_sb.h /usr/include/linux/tqueue.h \
+  /usr/include/linux/bfs_fs_sb.h /usr/include/linux/udf_fs_sb.h \
+  /usr/include/linux/ncp_fs_sb.h /usr/include/linux/ncp_mount.h \
+  /usr/include/linux/ncp.h /usr/include/linux/usbdev_fs_sb.h \
+  /usr/include/linux/delay.h /usr/include/linux/sched.h \
+  /usr/include/linux/binfmts.h /usr/include/linux/ptrace.h \
+  /usr/include/asm/ptrace.h /usr/include/linux/capability.h \
+  /usr/include/linux/personality.h /usr/include/asm/current.h \
+  /usr/include/linux/times.h /usr/include/linux/timex.h \
+  /usr/include/asm/timex.h /usr/include/asm/msr.h /usr/include/asm/mmu.h \
+  /usr/include/linux/smp.h /usr/include/linux/tty.h \
+  /usr/include/linux/major.h /usr/include/linux/termios.h \
+  /usr/include/asm/termios.h /usr/include/asm/termbits.h \
+  /usr/include/asm/ioctls.h /usr/include/linux/tty_driver.h \
+  /usr/include/linux/tty_ldisc.h /usr/include/linux/sem.h \
+  /usr/include/linux/ipc.h /usr/include/asm/ipcbuf.h \
+  /usr/include/asm/sembuf.h /usr/include/linux/signal.h \
+  /usr/include/asm/signal.h /usr/include/asm/siginfo.h \
+  /usr/include/linux/securebits.h /usr/include/linux/fs_struct.h \
+  /usr/include/linux/param.h /usr/include/linux/resource.h \
+  /usr/include/asm/resource.h /usr/include/linux/timer.h \
+  /usr/include/asm/delay.h /usr/include/linux/malloc.h \
+  /usr/include/linux/slab.h /usr/include/linux/mm.h \
+  /usr/include/linux/mmzone.h /usr/include/asm/pgtable.h \
+  /usr/include/asm/fixmap.h /usr/include/asm/apicdef.h \
+  /usr/include/asm/kmap_types.h /usr/include/asm/pgtable-2level.h \
+  /usr/include/linux/ioport.h /usr/include/linux/interrupt.h \
+  /usr/include/asm/hardirq.h /usr/include/linux/irq.h \
+  /usr/include/asm/irq.h /usr/include/asm/hw_irq.h \
+  /usr/include/linux/irq_cpustat.h /usr/include/asm/softirq.h sysdep.h \
+  /usr/include/linux/vmalloc.h /usr/include/linux/highmem.h \
+  /usr/include/asm/pgalloc.h /usr/include/asm/pgalloc-2level.h \
+  /usr/include/asm/highmem.h /usr/include/linux/init.h \
+  /usr/include/linux/poll.h /usr/include/asm/poll.h \
+  /usr/include/asm/uaccess.h /usr/include/asm/io.h mytypes.h arvid.h \
+  avt_ioctl.h
+avtfsd.o: avtfsd.c /usr/include/stdio.h /usr/include/features.h \
+  /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h \
+  /usr/lib/gcc-lib/i586-redhat-linux/3.0.2/include/stddef.h \
+  /usr/include/bits/types.h /usr/include/bits/pthreadtypes.h \
+  /usr/include/bits/sched.h /usr/include/libio.h /usr/include/_G_config.h \
+  /usr/include/wchar.h /usr/include/bits/wchar.h /usr/include/gconv.h \
+  /usr/lib/gcc-lib/i586-redhat-linux/3.0.2/include/stdarg.h \
+  /usr/include/bits/stdio_lim.h /usr/include/stdlib.h \
+  /usr/include/sys/types.h /usr/include/time.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/bits/sigset.h \
+  /usr/include/bits/time.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h /usr/include/string.h /usr/include/bits/string.h \
+  /usr/include/bits/string2.h /usr/include/unistd.h \
+  /usr/include/bits/posix_opt.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h /usr/include/signal.h /usr/include/bits/signum.h \
+  /usr/include/bits/siginfo.h /usr/include/bits/wordsize.h \
+  /usr/include/bits/sigaction.h /usr/include/bits/sigcontext.h \
+  /usr/include/asm/sigcontext.h /usr/include/bits/sigstack.h \
+  /usr/include/bits/sigthread.h /usr/include/fcntl.h \
+  /usr/include/bits/fcntl.h /usr/include/sys/ioctl.h \
+  /usr/include/bits/ioctls.h /usr/include/asm/ioctls.h \
+  /usr/include/asm/ioctl.h /usr/include/bits/ioctl-types.h \
+  /usr/include/sys/ttydefaults.h /usr/include/sys/ipc.h \
+  /usr/include/bits/ipc.h /usr/include/sys/msg.h /usr/include/bits/msq.h \
+  /usr/include/linux/errno.h /usr/include/asm/errno.h mytypes.h dprint.h \
+  mtime.h /usr/include/sys/timeb.h arvid.h avt_ioctl.h ini.h vcr.h crc.h \
+  ecc.h goley.h manchstr.h pt.h avtfsd.h
+avtfs_test.o: avtfs_test.c /usr/include/stdio.h /usr/include/features.h \
+  /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h \
+  /usr/lib/gcc-lib/i586-redhat-linux/3.0.2/include/stddef.h \
+  /usr/include/bits/types.h /usr/include/bits/pthreadtypes.h \
+  /usr/include/bits/sched.h /usr/include/libio.h /usr/include/_G_config.h \
+  /usr/include/wchar.h /usr/include/bits/wchar.h /usr/include/gconv.h \
+  /usr/lib/gcc-lib/i586-redhat-linux/3.0.2/include/stdarg.h \
+  /usr/include/bits/stdio_lim.h /usr/include/stdlib.h \
+  /usr/include/sys/types.h /usr/include/time.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/bits/sigset.h \
+  /usr/include/bits/time.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h /usr/include/string.h /usr/include/bits/string.h \
+  /usr/include/bits/string2.h /usr/include/unistd.h \
+  /usr/include/bits/posix_opt.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h /usr/include/signal.h /usr/include/bits/signum.h \
+  /usr/include/bits/siginfo.h /usr/include/bits/wordsize.h \
+  /usr/include/bits/sigaction.h /usr/include/bits/sigcontext.h \
+  /usr/include/asm/sigcontext.h /usr/include/bits/sigstack.h \
+  /usr/include/bits/sigthread.h /usr/include/fcntl.h \
+  /usr/include/bits/fcntl.h /usr/include/sys/ioctl.h \
+  /usr/include/bits/ioctls.h /usr/include/asm/ioctls.h \
+  /usr/include/asm/ioctl.h /usr/include/bits/ioctl-types.h \
+  /usr/include/sys/ttydefaults.h /usr/include/linux/errno.h \
+  /usr/include/asm/errno.h mytypes.h arvid.h avt_ioctl.h
+crc32.o: crc32.c mytypes.h crc.h
+dprint.o: dprint.c /usr/include/stdio.h /usr/include/features.h \
+  /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h \
+  /usr/lib/gcc-lib/i586-redhat-linux/3.0.2/include/stddef.h \
+  /usr/include/bits/types.h /usr/include/bits/pthreadtypes.h \
+  /usr/include/bits/sched.h /usr/include/libio.h /usr/include/_G_config.h \
+  /usr/include/wchar.h /usr/include/bits/wchar.h /usr/include/gconv.h \
+  /usr/lib/gcc-lib/i586-redhat-linux/3.0.2/include/stdarg.h \
+  /usr/include/bits/stdio_lim.h mytypes.h dprint.h
+ecc.o: ecc.c /usr/include/malloc.h /usr/include/features.h \
+  /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h \
+  /usr/lib/gcc-lib/i586-redhat-linux/3.0.2/include/stddef.h \
+  /usr/include/string.h /usr/include/bits/string.h \
+  /usr/include/bits/string2.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/bits/types.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/sched.h \
+  /usr/include/stdlib.h /usr/include/stdio.h /usr/include/libio.h \
+  /usr/include/_G_config.h /usr/include/wchar.h /usr/include/bits/wchar.h \
+  /usr/include/gconv.h \
+  /usr/lib/gcc-lib/i586-redhat-linux/3.0.2/include/stdarg.h \
+  /usr/include/bits/stdio_lim.h mytypes.h dprint.h arvid.h mtime.h \
+  /usr/include/sys/timeb.h /usr/include/time.h ecc.h goley.h rsb.h
+goley.o: goley.c /usr/include/string.h /usr/include/features.h \
+  /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h \
+  /usr/lib/gcc-lib/i586-redhat-linux/3.0.2/include/stddef.h \
+  /usr/include/bits/string.h /usr/include/bits/string2.h \
+  /usr/include/endian.h /usr/include/bits/endian.h \
+  /usr/include/bits/types.h /usr/include/bits/pthreadtypes.h \
+  /usr/include/bits/sched.h /usr/include/stdlib.h /usr/include/malloc.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/confname.h /usr/include/getopt.h /usr/include/fcntl.h \
+  /usr/include/bits/fcntl.h /usr/include/sys/types.h /usr/include/time.h \
+  /usr/include/sys/select.h /usr/include/bits/select.h \
+  /usr/include/bits/sigset.h /usr/include/bits/time.h \
+  /usr/include/sys/sysmacros.h mytypes.h arvid.h ecc.h goley.h
+goley_test.o: goley_test.c /usr/include/string.h /usr/include/features.h \
+  /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h \
+  /usr/lib/gcc-lib/i586-redhat-linux/3.0.2/include/stddef.h \
+  /usr/include/bits/string.h /usr/include/bits/string2.h \
+  /usr/include/endian.h /usr/include/bits/endian.h \
+  /usr/include/bits/types.h /usr/include/bits/pthreadtypes.h \
+  /usr/include/bits/sched.h /usr/include/stdlib.h /usr/include/malloc.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/confname.h /usr/include/getopt.h \
+  /usr/include/sys/types.h /usr/include/time.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/bits/sigset.h \
+  /usr/include/bits/time.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h /usr/include/stdio.h /usr/include/libio.h \
+  /usr/include/_G_config.h /usr/include/wchar.h /usr/include/bits/wchar.h \
+  /usr/include/gconv.h \
+  /usr/lib/gcc-lib/i586-redhat-linux/3.0.2/include/stdarg.h \
+  /usr/include/bits/stdio_lim.h /usr/include/fcntl.h \
+  /usr/include/bits/fcntl.h mytypes.h dprint.h mtime.h \
+  /usr/include/sys/timeb.h arvid.h ecc.h goley.h
+manchstr.o: manchstr.c /usr/include/string.h /usr/include/features.h \
+  /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h \
+  /usr/lib/gcc-lib/i586-redhat-linux/3.0.2/include/stddef.h \
+  /usr/include/bits/string.h /usr/include/bits/string2.h \
+  /usr/include/endian.h /usr/include/bits/endian.h \
+  /usr/include/bits/types.h /usr/include/bits/pthreadtypes.h \
+  /usr/include/bits/sched.h /usr/include/stdlib.h /usr/include/unistd.h \
+  /usr/include/bits/posix_opt.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h /usr/include/malloc.h /usr/include/fcntl.h \
+  /usr/include/bits/fcntl.h /usr/include/sys/types.h /usr/include/time.h \
+  /usr/include/sys/select.h /usr/include/bits/select.h \
+  /usr/include/bits/sigset.h /usr/include/bits/time.h \
+  /usr/include/sys/sysmacros.h mytypes.h arvid.h manchstr.h
+pt.o: pt.c /usr/include/malloc.h /usr/include/features.h \
+  /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h \
+  /usr/lib/gcc-lib/i586-redhat-linux/3.0.2/include/stddef.h \
+  /usr/include/string.h /usr/include/bits/string.h \
+  /usr/include/bits/string2.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/bits/types.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/sched.h \
+  /usr/include/stdlib.h mytypes.h arvid.h mtime.h \
+  /usr/include/sys/timeb.h /usr/include/time.h pt.h
+rsb.o: rsb.c /usr/include/string.h /usr/include/features.h \
+  /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h \
+  /usr/lib/gcc-lib/i586-redhat-linux/3.0.2/include/stddef.h \
+  /usr/include/bits/string.h /usr/include/bits/string2.h \
+  /usr/include/endian.h /usr/include/bits/endian.h \
+  /usr/include/bits/types.h /usr/include/bits/pthreadtypes.h \
+  /usr/include/bits/sched.h /usr/include/stdlib.h mytypes.h arvid.h ecc.h \
+  rsb.h rs.h
+rsb_test.o: rsb_test.c /usr/include/string.h /usr/include/features.h \
+  /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h \
+  /usr/lib/gcc-lib/i586-redhat-linux/3.0.2/include/stddef.h \
+  /usr/include/bits/string.h /usr/include/bits/string2.h \
+  /usr/include/endian.h /usr/include/bits/endian.h \
+  /usr/include/bits/types.h /usr/include/bits/pthreadtypes.h \
+  /usr/include/bits/sched.h /usr/include/stdlib.h /usr/include/malloc.h \
+  /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+  /usr/include/bits/confname.h /usr/include/getopt.h \
+  /usr/include/sys/types.h /usr/include/time.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/bits/sigset.h \
+  /usr/include/bits/time.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h /usr/include/stdio.h /usr/include/libio.h \
+  /usr/include/_G_config.h /usr/include/wchar.h /usr/include/bits/wchar.h \
+  /usr/include/gconv.h \
+  /usr/lib/gcc-lib/i586-redhat-linux/3.0.2/include/stdarg.h \
+  /usr/include/bits/stdio_lim.h /usr/include/fcntl.h \
+  /usr/include/bits/fcntl.h mytypes.h dprint.h mtime.h \
+  /usr/include/sys/timeb.h arvid.h ecc.h rsb.h rs.h
+rs.o: rs.c /usr/include/stdio.h /usr/include/features.h \
+  /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h \
+  /usr/lib/gcc-lib/i586-redhat-linux/3.0.2/include/stddef.h \
+  /usr/include/bits/types.h /usr/include/bits/pthreadtypes.h \
+  /usr/include/bits/sched.h /usr/include/libio.h /usr/include/_G_config.h \
+  /usr/include/wchar.h /usr/include/bits/wchar.h /usr/include/gconv.h \
+  /usr/lib/gcc-lib/i586-redhat-linux/3.0.2/include/stdarg.h \
+  /usr/include/bits/stdio_lim.h /usr/include/math.h \
+  /usr/include/bits/huge_val.h /usr/include/bits/nan.h \
+  /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h mytypes.h \
+  rs.h
+vcr.o: vcr.c /usr/include/stdio.h /usr/include/features.h \
+  /usr/include/sys/cdefs.h /usr/include/gnu/stubs.h \
+  /usr/lib/gcc-lib/i586-redhat-linux/3.0.2/include/stddef.h \
+  /usr/include/bits/types.h /usr/include/bits/pthreadtypes.h \
+  /usr/include/bits/sched.h /usr/include/libio.h /usr/include/_G_config.h \
+  /usr/include/wchar.h /usr/include/bits/wchar.h /usr/include/gconv.h \
+  /usr/lib/gcc-lib/i586-redhat-linux/3.0.2/include/stdarg.h \
+  /usr/include/bits/stdio_lim.h /usr/include/stdlib.h \
+  /usr/include/sys/types.h /usr/include/time.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/bits/sigset.h \
+  /usr/include/bits/time.h /usr/include/sys/sysmacros.h \
+  /usr/include/alloca.h /usr/include/string.h /usr/include/bits/string.h \
+  /usr/include/bits/string2.h /usr/include/unistd.h \
+  /usr/include/bits/posix_opt.h /usr/include/bits/confname.h \
+  /usr/include/getopt.h /usr/include/signal.h /usr/include/bits/signum.h \
+  /usr/include/bits/siginfo.h /usr/include/bits/wordsize.h \
+  /usr/include/bits/sigaction.h /usr/include/bits/sigcontext.h \
+  /usr/include/asm/sigcontext.h /usr/include/bits/sigstack.h \
+  /usr/include/bits/sigthread.h /usr/include/fcntl.h \
+  /usr/include/bits/fcntl.h /usr/include/ctype.h /usr/include/math.h \
+  /usr/include/bits/huge_val.h /usr/include/bits/nan.h \
+  /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h mytypes.h \
+  dprint.h arvid.h ecc.h ini.h avtfsd.h vcr.h pt.h

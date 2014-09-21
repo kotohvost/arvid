@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Set up specific port
+./avd_load port=0x390 irq=10

@@ -1,0 +1,524 @@
+/****************************************************************************
+	Файл-описание интерфейса АрВид V0.01beta (Arvid API)
+  Содержит:
+	- описание предопределенных типов данных
+	- символическое описание кодов завершения
+	- описание используемых структур данных
+	- прототипы функций API
+****************************************************************************/
+// 1.Данный файл рассчитан на использование MS VisualC++
+//   При использовании других трансляторов может понадобиться переопределение
+//   типов данных
+// 2.Описания рассчитаны только на 32-разрядный режим!
+
+
+#ifndef  __ARVIDAPI_H__
+#define  __ARVIDAPI_H__
+
+// описание предопределенных типов данных
+ #ifdef _MSC_VER
+   #define _pascal _stdcall
+ #endif
+ #ifndef __16__		// эту константу определять нельзя! Только 32-бит!
+  #define _FAR_
+  #define _HUGE_
+  #define __32__        // default: 32  Applications!
+ #else
+  #define _FAR_ _far
+  #define _HUGE_ _huge
+ #endif
+ typedef unsigned char  U8;
+ typedef signed   char  I8;
+ typedef unsigned short U16;
+ typedef signed   short I16;
+ typedef unsigned long  U32;
+ typedef signed   long  I32;
+
+#if !defined( _NODLL_) && !defined(__OS2__)
+ #ifdef _MAKEDLL
+  #define __DLLFUNC  __declspec(dllexport)
+ #else
+  #define __DLLFUNC  __declspec(dllimport)
+ #endif
+#else
+  #define __DLLFUNC
+#endif
+
+// коды завершения, возвращаемые функциями API
+#define OK_VCR  0               // успех
+enum{
+	E_OK=0,                 // успех
+	E_DRIVER_NOT_INSTALLED=1,      // драйвер не установлен
+	E_DEVICE_INVALID_OR_ALREADY_EXIST=2,// неверный AVHANDLE
+	E_SYSTEM_ERROR=3,       // произошла системная ошибка ( Windows: код в GetLastError() )
+	E_NOT_TPB=4,            // не определен TPB
+	E_TPB_EXIST=5,          // TPB уже определен
+	E_NO_FUNCTION=6,        // функция или команда не поддерживается (неверный номер)
+	E_UNKNOWN_FORMAT=7,     // считан неизвестный формат ленты
+	E_NOT_FOUND_TAPE_DIR=8, // оглавление ленты не найдено
+	E_NOT_AVAIL_FORMAT=9,   // неподдерживаемый формат ленты для записи
+	E_NOT_POSITION=10,      // сектор не найден (тайм-аут истек)
+	E_NOT_IDENTIC_TPB=11,   // несовпадение TPB (наткнулись не на ту ленту)
+	E__ABORT=12,            // команда прервана пользователем
+	E_OLD_DIR=13,           // оглавление устарело, найден сектор "нашей" ленты
+				// после сектора, с которого задано начало записи
+				// в режиме контроля оглавления
+	E_NOT_DIR=14,           // не найдено оглавление ленты при записи
+				// в режиме контроля оглавления
+	E_ABORT_DISABLE=15,     // аборт в данный момент запрещен
+	E_ABORT_RECORD=16,      // аборт,  когда ВМ был в записи
+	E_TRANSL_RECORD=17,     // ошибка контроля "кольца" в режиме REC
+	E_NO_IRC_RCV=18,        // не было приема ИК клавиши (для команды ввода ИК)
+	// ддалее коды возврата AvdCheckStop
+	OFF_VCR=19,             // ВМ вероятно выключен
+	TUNER_VCR=20,           // ВМ либо формирует свое изображение на экране TV, либо
+				// принимает сигнал с эфира
+	PICTURE_VCR=21,         // аналогично, но видео транслируется частично
+	REC_OK_VCR=PICTURE_VCR,   // зарезервировано
+
+	E_TAPE_FULL=22,         // раннее предупреждение о конце ленты
+				// при записи (выдается за 1 мин. до конца)
+				// выдается при записи
+	E_FIND_DIR=23,          // при поиске сектора со спец. аттрибутом
+				// обнаружено оглавление ленты
+	E_INVALID_PARAM=24,     // неверные параметры в команде
+        E_INVALID_SEQUENCE=25,  // неверная последовательность команд (чтения или записи)
+	E_REACH_END_TAPE=26,    // достигнута метка конца ленты (при чтении)
+	E_ERROR_OR_SKIP_DATA=27,// не все данные команды чтения считаны
+	E_BAD_VCR_TABLE=28,     // загружается неверная таблица ВМ
+	E_INCOMPATIBLE_LOW_LEVEL_DRIVER=29, // несовместимый драйвер драйвер нижнего уровня ( .VxD or .SYS )
+	E_UNKNOWN_FORMAT_PT=30, // неизвестный формат таблицы позиционирования
+	E_BAD_PT=31,            // неверная таблица позиционирования (ТП)
+	E_MISMATCH_FORMAT_PT=32,// несоответствие форматов ленты и ТП
+	E_INTERNAL_DRIVE_ERROR=33, // internal drive error
+        E_SECTOR_NOT_ACCESSIBLE=34,// сектор для поиска недоступен( истек счетчик откатов )
+	E_UNKNOWN_ERROR         // неизвестная ошибка, если >= E_UNKNOWN_ERROR
+};
+
+// форматы лент Арвид
+#define FORMAT_K4       0x1               // формат (reserved)
+#define FORMAT_K7       0x2               // формат 1010 100K/s (old)
+#define FORMAT_K7CRC    0x4               // формат 1010 100K/s c улучшенным CRC32
+#define FORMAT_RS       0x8               // формат 1020,103X 200K/s код Рида-Соломона
+#define FORMAT_RSC      0x10              // формат 1020,103X >200K/s код Рида-Соломона с возможностью сжатия
+
+// константы для функции узнать AvdIsTape
+#define NOT_TAPE        0       // нет ленты
+#define TPB_TAPE        1       // параметры ленты загружены
+
+
+// режимы перемещения ленты ВМ ( состояния ВМ )
+enum {
+   VCR_STOP=0           ,          // состояние STOP
+   VCR_PLAY             ,          // состояние PLAY
+   VCR_PLAY_FF          ,          // ускоренное воспроизведение вперед
+   VCR_PLAY_REW         ,          // ускоренное воспроизведение назад
+   VCR_nPLAY_FF         ,          // зарезервировано, ускоренное воспроизведение вперед (вторая скорость)
+   VCR_nPLAY_REW        ,          // зарезервировано, ускоренное воспроизведение назад  (вторая скорость)
+   VCR_FF               ,          // ускоренная перемотка вперед
+   VCR_REW              ,          // ускоренная перемотка назад
+   VCR_REC              ,          // режим записи на ленту
+   VCR_MAX= VCR_REC                // макс значение режима
+};
+
+
+
+#define VER_PROTO_API   0x100   //
+
+// далее следуют определение структур данных, используемых API
+
+
+//	1. Блок параметров драйвера Арвид
+// определяет основные характеристики, постоянные для данной версии драйвера
+
+// биты аттрибутов (в поле attributs)
+#define USED_AUTO_PHASE 0x1     // драйвер поддерживает автофазирование
+#define USED_COMPRESS   0x2     // драйвер поддерживает ленты со сжатием
+#define USED_XOR        0x4     // драйвер поддерживает избыточные кадры XOR
+
+     struct DPB {           // Driver Parameters Block
+	U16     controller;	// тип контроллера
+	U16     ver_major,
+		ver_minor;	// версия драйвера
+	U16     ver_proto_API;  // версия протокола API
+
+	U16     formats;    	// побитовый список поддерж. форматов ленты
+	U16     maxphase;   	// макс. величина параметра phase
+
+	U16     attributs;  	// побитовый список аттрибутов драйвера
+	U16     xor_block_size; // макс кол-во кадров в XOR блоке
+
+	U16     xor_block_number; // макс кол-во блоков в XOR области
+	U16     xor_area_max;   // максиммальное произведение
+				// xor_block_size*xor_block_number
+
+	U32     reserv;		// reserv
+     };
+
+
+//	2. Блок режимов драйвера Арвид
+// определяет характеристики, которые могут изменяться
+// для указанного Device
+
+     struct CDPB {           // Current Device Parameters Block
+	U16     time_out;    // время тайм-аута, секунд
+	// т.е. время, по истечении которого операция прекращается, если на ленте
+	// не найдено никакой информации (по умолчанию 13 секунд)
+	U16     rate;        // скорость передачи [100-200] Кбайт/cек
+			     // влияет только на формат FORMAT_RS
+	U8      phase;       // текущая фаза приема
+	U8      check_rec;   // флаг контроля кольца в реж. Record
+	U8      lp;          // флаг работы в режиме LongPlay ( д.б. 0 ) reserved
+	U8      auto_phase;  // флаг: текущая работа в режиме автоподстройки фазы
+
+	U8      compress_enable; // флаг: при записи данных в формате FORMAT_RSC
+				 // сжатие разрешено
+	U8      xor_enable;  //  разрешено формировать XOR блоки при записи
+	U8      xor_block_size;   // кол-во кадров в XOR блоке при записи
+	U8      xor_block_number; // кол-во блоков в XOR области при записи
+	U32     reserv;     // reserv
+     };
+
+
+//	3. Блок параметров ленты:
+
+// определяет характеристики ленты, с которой сейчас работает Арвид
+
+     struct TPBOLD {    // Tape Parameters Block для форматов менее FORMAT_RSC
+	U16     format;        // формат ленты
+	U16     length;        // длина ленты в минутах
+	char    name[8];       // имя ленты
+	U16     ident;         // идентификатор ленты (уникальный номер)
+	U16		resrv;
+	U32     reserv;        // reserv
+     };
+     struct TPBNEW {       // Tape Parameters Block для формата FORMAT_RSC
+	U16     format;		// формат ленты
+	U16     length;		// длина ленты в минутах
+	U32     tapeID;		// имя ленты ( идентификатор-уникальный номер )
+	U8      reserv[sizeof(TPBOLD)-8];     // reserv
+     };
+
+     struct TPB {	// общая структура TPB
+	U16	format;
+	U16	length;
+	union {
+	  struct {
+	    char	name[8];
+	    U16		ident;
+		U16		resrv;
+	    U32		reserv;
+	  };
+	  U32	tapeID;
+	};
+     };
+
+//     4. Блок текущих параметров устройства при работе с лентой
+// может использоваться при отображении текущего состояния
+     struct CurTPB {       // Current Tape Parameters Block
+	U16     cur_time;  // текущее время от начала ленты, сек
+	U16     targ_time; // время цели, сек
+	U32     cur_sect;  // текущий сектор
+	U32     targ_sect; // сектор цели
+	U16     state_vcr; // текущее состояние ВМ (константы см выше)
+	// далее идет часть, используемая AVSETUP
+	U32     pure_st;   // кол-во чистых кадров ( без ошибок )
+			   // от начала операции чтения
+        U32     reserv[4];     // reserv
+     };
+
+//      5. Блок аппаратных установок устройства
+     struct DHB {       // Device Hardware parameters Block
+	U16     port;   // базовый порт
+	U16     dma;    // номер канала DMA
+	U16     irq;    // номер канала IRQ
+	U16     busy;   // 0, если может быть открыт AvdOpen
+	U8      reserv[8];
+     };
+
+// описание типа: сектор данных
+#define SIZE_SECTOR_BYTES       512    // размер сектора для ArvidApi
+#define SIZE_SECTOR_WORDS       (SIZE_SECTOR_BYTES/2)
+#define SIZE_SECTOR_DWORDS      (SIZE_SECTOR_BYTES/4)
+typedef char SectData[SIZE_SECTOR_BYTES];
+typedef SectData _FAR_ *SectDataBlock; // указатель на сектора
+
+
+/*-------------------------------------------------
+	прототипы функций интерфейса
+ --------------------------------------------------*/
+// далее следуют прототипы функций API
+
+// первый параметр большинства функций - AVHANDLE - значение,
+// получаемое при открытии (функция AvdOpen)
+
+// каждая функция API возвращает код возврата. Нет ошибок - E_OK,
+// иначе - код ошибки
+
+// соглашение о передаче параметров
+#ifndef __OS2__
+    #define AVDCONV  _FAR_ _stdcall
+#else
+ #ifdef __BORLANDC__
+    #define AVDCONV  pascal
+ #else
+    #define AVDCONV  _Pascal
+ #endif
+#endif
+    #ifndef  INVALID_HANDLE_VALUE
+     #define AVHANDLE        unsigned
+     #define INVALID_HANDLE_VALUE        ((AVHANDLE)(-1))
+    #else
+     #define AVHANDLE        unsigned
+    #endif
+     #define AVDRET          int
+
+     #define AVDPROC         extern "C" __DLLFUNC  AVDRET       AVDCONV
+
+
+//         1. Установление/разрыв взаимодействия с Arvid
+
+     AVDPROC          AvdInstall();
+	// Установить связь с драйвером (загрузить драйвер)
+	// должна быть первой вызываемой функцией API
+     AVDPROC          AvdOpen( unsigned numDevice,AVHANDLE _FAR_ *h );
+	// Открыть handle драйвера для данного Device (контроллера АрВид)
+	// Это - функция установления связи с Arvid. Полученный AVHANDLE
+	// должен использоваться в последующих обращениях к API
+	// Если устройство уже занято другим приложением - ошибка
+     AVDPROC          AvdClose( AVHANDLE h );
+        // Закрыть handle драйвера - освобождает устройство для других
+	// приложений
+     AVDPROC          AvdDeInstall();
+        // Разорвать связь с драйвером (выгрузить драйвер).
+        // Должна быть последней вызываемой функцией API
+     AVDPROC          AvdGetNumberDevices( U32 _FAR_ *pNumDevs );
+	// Узнать кол-во устройств, доступных драйверу
+
+//        2. Управление параметрами драйвера.
+
+     AVDPROC AvdGetDPB( AVHANDLE h,DPB _FAR_ *dpb );
+	// получить параметры драйвера
+     AVDPROC          AvdGetDHB(AVHANDLE h, DHB _FAR_ *dhb );
+	// получить аппаратные установки для Device
+
+     // AVDPROC AvdSetDHB( AVHANDLE h,const DHB _FAR_ *dhb );
+	// задать аппаратные установки драйвера
+
+     AVDPROC AvdGetCDPB( AVHANDLE h,CDPB _FAR_ *drb );
+	// получить текущие режимы драйвера
+     AVDPROC AvdSetCDPB( AVHANDLE h,const CDPB _FAR_ *drb );
+	// задать текущие режимы драйвера
+     AVDPROC AvdSetPhase( AVHANDLE h,int phase );
+	// установить фазу приема ( можно во время чтения )
+     AVDPROC AvdSetAutoPhase( AVHANDLE h,int phase );
+	// установить фазу приема  с автоподстройкой фазы
+	// ( можно во время чтения )
+
+//       3. Работа с лентой.
+
+// программа, работающая с Arvid может может работать не более чем с одной
+// лентой одновременно.
+
+//	3a. Справочные функции
+
+     AVDPROC AvdIsTape( AVHANDLE h, U32 _FAR_ *isTape );
+	// узнать установлены ли параметры ленты
+     AVDPROC AvdGetTape( AVHANDLE h,TPB _FAR_ *tpb );
+	// получить параметры ленты
+     AVDPROC AvdGetCurTPB( AVHANDLE h,CurTPB _FAR_ *curpb );
+	// получить текущие параметры драйвера при работе с лентой
+
+//	3b. Сброс ленты.
+     AVDPROC AvdResetTape( AVHANDLE h );
+	// сбросить установки ленты
+
+//	3c. Установка ленты
+// Перед установкой ленты нужно сбросить предыдущую!
+     AVDPROC AvdSetTape( AVHANDLE h,const TPB _FAR_ *tpb );
+	// установить параметры новой ленты (инициализация),
+	// или принудительно задать ленту, параметры которой известны
+
+     #define IDENT_WITH_REW     1       // с отмоткой
+     #define IDENT_QUICK        0       // без
+     AVDPROC AvdIdentify( AVHANDLE h,int Control );
+	// идентифицировать ленту (т.е. определить ее TPB)
+
+//	3d. Работа с таблицей позиционирования (position table,PT)
+
+//  для каждой обслуживаемой ленты Арвид ведет таблицу позиционирования -
+//  таблицу соответствия номера сектора и времени от начала ленты. Она
+//  позволяет быстро ориентироваться на ленте, несмотря на возможную
+//  неравномерность записанных данных.
+//  Приложение, работающее с API должно сохранять PT в промежутках между
+//  cеанcами работы с лентой. Т.е. после операции записи (когда PT изменяется)
+//  необходимо считать PT и сохранить ее. В дальнейшем, после идентификации
+//  ленты необходимо загрузить ранее сохраненную PT.
+//  Длина PT постоянна и зависит только от формата ленты.
+
+     AVDPROC AvdGetPTLength( AVHANDLE h , U32 _FAR_ *ptLength );
+	// получить длину таблицы позиционирования в байтах
+	// должна выдаваться когда лента уже загружена (известен ее формат)
+     AVDPROC AvdGetPT( AVHANDLE h,void _FAR_ * addr );
+	// получить таблицу позиционирования ленты
+	// addr - адрес буфера, длина которого определяется в AvdGetPTLength
+     AVDPROC AvdSetPT( AVHANDLE h,const void _FAR_ * addr );
+	// загрузить таблицу позиционирования ленты
+     AVDPROC AvdGetSectorTime( AVHANDLE h , U32 sector ,U32 _FAR_ *sectorTime, void _FAR_ * pPosTbl );
+	// справочная функция определения времени по номеру сектора на
+	// основании PT
+	// pPosTbl указатель на PT (если 0, то из загруженной в драйвер)
+
+
+//	4.Работа с параметрами ВМ.
+// Для обеспечения нормальной работы с ВМ приложение должно задать таблицу
+// управления параметрами ВМ. Она может загружаться либо из файла,
+// либо из памяти (например при сетапе).
+
+     AVDPROC AvdSetVCR( AVHANDLE h,const char _FAR_ *fname );
+	// загрузить таблицу управления ВМ из файла
+     AVDPROC AvdSetVCRAddr( AVHANDLE h,const void _FAR_ *vcr );
+	// загрузить таблицу управления ВМ
+
+
+//      Программирование процесса чтения/записи
+
+// При программировании процессов чтения/записи нужно иметь ввиду следующее:
+// функции чтения/записи не возвращают управление до тех пор, пока операция
+// не выполнится полностью. Поэтому для операций с диском/абортирования
+// рекомендуется использовать доп. потоки (threads).
+
+//	5.Запись информации на ленту.
+
+//при записи информации необходимо выдерживать межзаписный промежуток в
+// нумерации секторов
+//(чтобы избежать накладок) Узнать этот безопасный промежуток можно функцией:
+     AVDPROC AvdGetInterRecord( AVHANDLE h , U32 _FAR_ *interRec );
+	// узнать размер межзаписного промежутка ( в секторах для текущего формата ленты
+	// и для данного типа ВМ)
+
+     // Параметр RecMode для AvdWriteStart
+     // -- тип операции записи
+     #define REC_CURRENT_PLACE 0 //- с текущего места
+     #define REC_DIR_CHECK     1 //- с указ.сектора aftersect с контролем оглавления
+     #define REC_NO_DIR_CHECK  2 //- -------//------------------- без --------//--------
+     #define REC_MAX_CODE      (REC_NO_DIR_CHECK)
+
+     AVDPROC AvdWriteStart( AVHANDLE h,int RecMode, U32 aftersect );
+	// начать запись данных
+	// это - первая команда процесса записи
+	// по ней Арвид переходит в режим REC либо сразу, либо (в зависимости
+	// от заданного режима ) после считывания указанного в команде сектора
+	// aftersect. Как правило это - последний сектор предыдущей записи
+	//
+     // Параметр ControlFlags для AvdWrite
+     #define REC_ENABLE_COMPRESS  0          // варианты поля ControlFlags
+     #define REC_DISABLE_COMPRESS 0x8000     // запрет сжатия для архивов
+     AVDPROC AvdWrite( AVHANDLE h,const void _FAR_ * data, U32 begSect,
+       U16 nSect , int ControlFlags );
+	// запись данных (обычных)
+	// begSect - номер начального сектора
+	// nSect - число секторов
+	// нумерация секторов в последовательных командах должна быть
+	// непрерывной
+     AVDPROC AvdWriteDirectory( AVHANDLE h,const void _FAR_ * data, U32 begSect,
+       U16 nSect  );
+	// запись оглавления ленты
+	// отличается от обычной тем, что сектора помечаются спец. признаком,
+	// который затем ищется процедурой поиска оглавления
+     AVDPROC AvdWriteLog( AVHANDLE h,const void _FAR_ * data, U32 begSect, U16 nSect  );
+	// запись данных со спец. аттрибутом
+	// отличается тем, что сектора помечается аттрибутом, позволяющим
+	// выделить его затем из прочих секторов
+	// В настоящее время этим методом помечаются сектора с информацией о
+	// записываемых файлах, затем такие сектора находятся рековером
+	// В дальнейшем возможно иное использование
+//     AVDPROC AvdWritePT( AVHANDLE h, const void _FAR_ * data, U32 begSect, U16 nSect );
+	// запись таблицы позиционирования
+     AVDPROC AvdWritePause( AVHANDLE h , unsigned  pause_second );
+	// запись паузы в процессе записи (например, в начале ленты или перед
+	// оглавлением)
+	// если (pause_second==0) - стандартная пауза перед оглавлением
+     AVDPROC AvdWriteEnd( AVHANDLE h );
+	// конец записи - последняя команда процесса записи
+
+//         6. Чтение информации с ленты.
+
+     // описание структуры, всегда возвращаемой
+     // при чтении секторов данных
+     struct     RD_RESULT
+     {
+	U32             nReadSect;   // кол-во реально считанных секторов
+	U32             errors[3];   // статистика исправленных ошибок
+				     // однократные, двухкратные и трехкратные
+	U32             begSect;     // номер первого прочитанного сектора
+				     //	(имеет смысл в процедурах поиска)
+     };
+     // значения поля ControlFlags
+     #define DEFAULT_FLAGS     0
+     #define USED_XOR_RESTORE  0x8000
+
+     AVDPROC AvdRead( AVHANDLE h,void _FAR_ * data, U32 begSect, U16 nSect ,
+      int ControlFlags, RD_RESULT _FAR_ * p );
+	// чтение данных, в  RD_RESULT результат чтения
+	// основная функция процесса чтения
+     AVDPROC AvdReadEnd( AVHANDLE h,int Control );
+	// окончание чтения данных - последняя команда процесса чтения
+
+     AVDPROC AvdReadLog( AVHANDLE h,void _FAR_ * data, U16 nSect , RD_RESULT _FAR_ * p  );
+	// поиск (последовательным просмотром ) сектора со спец. аттрибутом
+	// и чтение nSect секторов начиная с него
+     AVDPROC AvdReadDirectory( AVHANDLE h,void _FAR_ * data, U16 nSect , RD_RESULT _FAR_ * p  );
+	// чтение-поиск секторов оглавления, начиная с первого встретившегося.
+	// Используется метод бинарного поиска ("Лев в пустыне" ;-)
+     AVDPROC AvdReadDirectoryQuick( AVHANDLE h,void _FAR_ * data, U16 nSect , RD_RESULT _FAR_ * p  );
+	// чтение-поиск секторов оглавления, начиная с первого встретившегося,
+        // без использования льва в пустыне (последовательным просмотром )
+
+//         7. Специальные процедуры.
+
+     AVDPROC AvdAbort( AVHANDLE h );
+	// прекратить выполнение любых операций драйвера
+     AVDPROC AvdIrcKeyTrn( AVHANDLE h,int Control );
+	// передать ИК клавишу с номером Control
+     AVDPROC AvdHardwareTest( AVHANDLE h  );
+	// выполнить простейшую проверку работоспособности аппаратуры
+	// с текущими установками в DHB
+     AVDPROC AvdCheckStop( AVHANDLE h );
+	// узнать параметры кольца трансляции ВМ
+     AVDPROC AvdPowerOn( AVHANDLE h,int Control );
+	// условное/безусловное включение ВМ
+     AVDPROC AvdPowerOff( AVHANDLE h,int Control );
+	// условное/безусловное выключение ВМ
+     AVDPROC AvdEject( AVHANDLE h );
+	// выброс кассеты из ВМ
+
+//       7a. В том числе процедуры перемотки ленты:
+     AVDPROC AvdRewind ( AVHANDLE h );
+	// выдача команды перемотки назад
+     AVDPROC AvdForward( AVHANDLE h );
+	// выдача команды перемотки вперед
+
+     // следующие команды используются в avsetup
+     AVDPROC AvdMoveTape( AVHANDLE h,
+			unsigned  mode,        // режим перемещения ленты ВМ (VCR_FF,VCR_PLAY_FF ...)
+			unsigned  time,        // время перемещения ( кадров= 1/50 сек )
+			unsigned  finit_mode  // режим ВМ по окончании перемещения
+      );
+	// перемещать ленту в режиме mode в течении времени time (кадров= 1/50 сек)
+	// по окончанию перейти в PLAY или STOP (finit_mode).
+     AVDPROC AvdPosition( AVHANDLE h,
+			unsigned cur,         // текущая позиция на ленте в секундах
+			unsigned target,     // целевая позиция на ленте в секундах
+			unsigned finit_mode   // режим ВМ по окончанию перемещения
+     );
+	// перемещать ленту с позиции cur (сек) на позицию target
+	// по окончанию перейти в PLAY или STOP
+        // драйвер сам выбирает режим движения
+     AVDPROC AvdSetVirtualVcrState( AVHANDLE h, int Control );
+	// перевести драйвер в состояние Control ( VCR_... )
+	// без реального переключения ВМ
+     AVDPROC AvdSetVcrState( AVHANDLE h, int Control );
+	// перевести ВМ в состояние Control ( VCR_... )
+
+#endif // End of file ARVIDAPI.H

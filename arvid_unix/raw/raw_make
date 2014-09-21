@@ -1,0 +1,3 @@
+#!/bin/sh
+rm raw
+gcc -O2 -o raw raw.c

@@ -1,0 +1,5 @@
+#!/bin/sh
+# remove "^M" from texts
+
+cat $1 |tr -d "\r" > $1.new
+mv $1.new $1
